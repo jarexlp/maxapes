@@ -27,7 +27,9 @@ import {
   UserCheck,
   Plug,
   LineChart,
-  Filter
+  Filter,
+  FileText,
+  Lock
 } from 'lucide-react';
 
 // --- INTERNAL LOGO COMPONENT ---
@@ -60,7 +62,6 @@ const StatCard = ({ value, label, subtext }) => (
 
 const Hero = ({ navigate }) => (
   <section className="pt-32 pb-16 md:pt-48 md:pb-32 bg-white relative overflow-hidden">
-    {/* Modern Grid Background */}
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
     <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-orange-500/5 rounded-full blur-[100px] -z-10 translate-x-1/3 -translate-y-1/4"></div>
 
@@ -90,11 +91,9 @@ const Hero = ({ navigate }) => (
         </button>
       </div>
 
-      {/* Social Proof Strip */}
       <div className="mt-20 pt-10 border-t border-slate-100">
         <p className="text-sm text-slate-600 font-bold uppercase tracking-widest mb-6">Powering Growth For</p>
         <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-80 grayscale hover:grayscale-0 transition duration-500">
-           {/* Placeholder Logos using Text for Demo */}
            {['TechFlow', 'ScaleUp Inc.', 'VentureBase', 'Apex Finance', 'Growth Labs'].map(name => (
              <span key={name} className="text-xl md:text-2xl font-black text-slate-400">{name}</span>
            ))}
@@ -120,8 +119,9 @@ const Metrics = () => (
   </section>
 );
 
-const ServicesGrid = () => (
-  <section className="py-32 bg-white">
+// Modified ServicesGrid to accept custom padding
+const ServicesGrid = ({ padding = "py-32" }) => (
+  <section className={`${padding} bg-white`}>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-20">
         <SectionBadge icon={LayoutGrid} text="Modular Architecture" color="blue" />
@@ -179,39 +179,6 @@ const ServicesGrid = () => (
   </section>
 );
 
-const Comparison = () => (
-  <section className="py-24 bg-white border-t border-slate-100">
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-black text-slate-900">WHY UPWORK ISN'T ENOUGH</h2>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-slate-200 rounded-2xl overflow-hidden shadow-xl">
-        {/* Header Row */}
-        <div className="hidden md:block p-6 bg-slate-50 font-bold text-slate-400 uppercase tracking-widest text-sm">Feature</div>
-        <div className="hidden md:block p-6 bg-slate-50 font-bold text-slate-400 uppercase tracking-widest text-sm text-center">Freelancers</div>
-        <div className="hidden md:block p-6 bg-slate-900 font-bold text-orange-500 uppercase tracking-widest text-sm text-center">MaxApe</div>
-
-        {/* Rows */}
-        {[
-          { title: "Management", bad: "You manage them.", good: "Fully Managed Units" },
-          { title: "Reliability", bad: "Ghosting risk.", good: "Zero-Liability Guarantee" },
-          { title: "Integration", bad: "Disconnected silos.", good: "Synched Workflows" },
-          { title: "Cost Model", bad: "Hourly/Variable.", good: "Flat Monthly Rate" },
-        ].map((item, i) => (
-          <React.Fragment key={i}>
-            <div className="p-6 border-b border-slate-100 bg-white font-bold text-slate-900 flex items-center">{item.title}</div>
-            <div className="p-6 border-b border-slate-100 bg-white text-slate-500 text-center flex items-center justify-center">{item.bad}</div>
-            <div className="p-6 border-b border-slate-100 bg-blue-50/30 text-blue-900 font-bold text-center flex items-center justify-center gap-2">
-              <CheckCircle2 size={16} className="text-green-500" /> {item.good}
-            </div>
-          </React.Fragment>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
 const ContactCTA = ({ navigate }) => (
   <section className="py-24 bg-slate-900 relative overflow-hidden">
     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
@@ -232,6 +199,70 @@ const ContactCTA = ({ navigate }) => (
       <div className="mt-8 flex justify-center gap-8 text-sm font-bold text-slate-500 uppercase tracking-widest">
         <span className="flex items-center gap-2"><ShieldCheck size={16}/> No Gatekeepers</span>
         <span className="flex items-center gap-2"><Zap size={16}/> Direct Access</span>
+      </div>
+    </div>
+  </section>
+);
+
+// --- NEW LEGAL PAGES ---
+
+const PrivacyPage = () => (
+  <section className="pt-32 pb-20 bg-slate-50 min-h-screen">
+    <div className="max-w-4xl mx-auto px-6">
+      <div className="bg-white p-10 md:p-16 rounded-3xl shadow-sm border border-slate-200">
+        <div className="mb-10 flex items-center gap-4 text-slate-400">
+          <Lock size={24} />
+          <h1 className="text-4xl font-black text-slate-900">Privacy Policy</h1>
+        </div>
+        <div className="prose prose-slate max-w-none text-slate-600">
+          <p className="text-sm text-slate-400 mb-8">Last Updated: November 2025</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">1. Introduction</h3>
+          <p>MaxApe Solutions LLC ("we," "us," or "our") respects your privacy and is committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website or use our services.</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">2. Data We Collect</h3>
+          <p>We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows: Identity Data (name), Contact Data (email, phone), and Technical Data (IP address, browser info).</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">3. How We Use Your Data</h3>
+          <p>We will only use your personal data when the law allows us to. Most commonly, we will use your personal data to perform the contract we are about to enter into or have entered into with you, or where it is necessary for our legitimate interests.</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">4. Data Security</h3>
+          <p>We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way. We operate under a Zero-Trust architecture for client data.</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">5. Contact Us</h3>
+          <p>If you have any questions about this privacy policy, please contact us at: Operations@MaxApeSolutions.com</p>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const TermsPage = () => (
+  <section className="pt-32 pb-20 bg-slate-50 min-h-screen">
+    <div className="max-w-4xl mx-auto px-6">
+      <div className="bg-white p-10 md:p-16 rounded-3xl shadow-sm border border-slate-200">
+        <div className="mb-10 flex items-center gap-4 text-slate-400">
+          <FileText size={24} />
+          <h1 className="text-4xl font-black text-slate-900">Terms of Service</h1>
+        </div>
+        <div className="prose prose-slate max-w-none text-slate-600">
+          <p className="text-sm text-slate-400 mb-8">Last Updated: November 2025</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">1. Agreement to Terms</h3>
+          <p>By accessing our website or using our services, you agree to be bound by these Terms of Service. If you do not agree to these terms, you may not access the service.</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">2. Services</h3>
+          <p>MaxApe Solutions LLC provides Business Process Outsourcing (BPO) services including but not limited to Financial Management, Sales Development, and Administrative Support. Specific deliverables are outlined in individual client service agreements.</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">3. Intellectual Property</h3>
+          <p>The service and its original content, features, and functionality are and will remain the exclusive property of MaxApe Solutions LLC and its licensors.</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">4. Limitation of Liability</h3>
+          <p>In no event shall MaxApe Solutions LLC, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages.</p>
+          
+          <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">5. Governing Law</h3>
+          <p>These Terms shall be governed and construed in accordance with the laws of Wyoming, United States, without regard to its conflict of law provisions.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -339,8 +370,9 @@ const Footer = ({ navigate }) => (
       <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-widest">
         <p>&copy; 2026 MAXAPE SOLUTIONS LLC.</p>
         <div className="flex gap-6 mt-4 md:mt-0">
-          <span className="hover:text-slate-900 cursor-pointer transition">Privacy Policy</span>
-          <span className="hover:text-slate-900 cursor-pointer transition">Terms of Service</span>
+          {/* UPDATED: Now these work */}
+          <span onClick={() => navigate('privacy')} className="hover:text-slate-900 cursor-pointer transition">Privacy Policy</span>
+          <span onClick={() => navigate('terms')} className="hover:text-slate-900 cursor-pointer transition">Terms of Service</span>
         </div>
       </div>
     </div>
@@ -367,7 +399,6 @@ const Workflow = () => {
         </div>
         
         <div className="grid md:grid-cols-4 gap-8 relative">
-          {/* Connecting Line (Desktop) */}
           <div className="hidden md:block absolute top-12 left-0 w-full h-1 bg-slate-200 -z-10"></div>
           
           {steps.map((step, index) => (
@@ -438,7 +469,7 @@ const Deliverables = () => {
 
 const ServicesPage = ({ navigate }) => (
   <div className="pt-32 pb-0">
-    <div className="max-w-7xl mx-auto px-4 text-center mb-16">
+    <div className="max-w-7xl mx-auto px-4 text-center mb-10"> {/* Reduced margin-bottom here to fix spacing */}
       <div className="inline-block px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-4">INTEGRATED NEARSHORE TEAMS</div>
       <h2 className="text-5xl font-black text-slate-900 mb-6 leading-tight">
           STOP MANAGING FREELANCERS. <br/>
@@ -449,7 +480,7 @@ const ServicesPage = ({ navigate }) => (
       </p>
     </div>
     
-    <ServicesGrid />
+    <ServicesGrid padding="py-16" /> {/* Adjusted padding prop for Services Page */}
     
     <Workflow />
     <Deliverables />
@@ -565,9 +596,8 @@ const AboutPage = () => (
     </section>
 );
 
-// --- UPDATED CAREERS PAGE ---
+// --- CAREERS PAGE ---
 const CareersPage = () => {
-  // DATA: Generic Job List - Edit this array to update jobs
   const OPEN_POSITIONS = [
     {
       id: 1,
@@ -598,7 +628,6 @@ const CareersPage = () => {
   return (
     <section className="pt-32 pb-20 bg-slate-50 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             {/* Header */}
              <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl mb-20">
                 <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]"></div>
                 <div className="relative z-10">
@@ -615,7 +644,6 @@ const CareersPage = () => {
                 </div>
              </div>
 
-             {/* Job Listings */}
              <div className="max-w-5xl mx-auto">
                 <div className="flex items-center justify-between mb-10">
                     <h3 className="text-3xl font-black text-slate-900">OPEN POSITIONS</h3>
@@ -696,6 +724,10 @@ const App = () => {
         {currentPage === 'careers' && <CareersPage />}
         {currentPage === 'crew' && <CareersPage />}
         {currentPage === 'philosophy' && <AboutPage />}
+        
+        {/* Legal Pages Routes */}
+        {currentPage === 'privacy' && <PrivacyPage />}
+        {currentPage === 'terms' && <TermsPage />}
       </main>
 
       <Footer navigate={navigate} />
