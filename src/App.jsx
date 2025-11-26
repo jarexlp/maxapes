@@ -29,7 +29,8 @@ import {
   LineChart,
   Filter,
   FileText,
-  Lock
+  Lock,
+  Quote
 } from 'lucide-react';
 
 // --- INTERNAL LOGO COMPONENT ---
@@ -55,6 +56,22 @@ const StatCard = ({ value, label, subtext }) => (
     <div className="text-4xl md:text-5xl font-black text-white mb-2">{value}</div>
     <div className="text-orange-500 font-bold text-sm uppercase tracking-wider mb-1">{label}</div>
     <div className="text-slate-400 text-xs">{subtext}</div>
+  </div>
+);
+
+const TestimonialCard = ({ quote, author, role }) => (
+  <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-lg relative">
+    <Quote className="text-blue-100 absolute top-6 right-6" size={48} />
+    <div className="flex gap-1 mb-6">
+      {[...Array(5)].map((_, i) => (
+        <Star key={i} size={16} className="text-orange-400 fill-orange-400" />
+      ))}
+    </div>
+    <p className="text-slate-700 font-medium text-lg mb-6 relative z-10">"{quote}"</p>
+    <div>
+      <p className="text-slate-900 font-black text-sm uppercase tracking-wide">{author}</p>
+      <p className="text-slate-500 text-xs font-bold">{role}</p>
+    </div>
   </div>
 );
 
@@ -114,6 +131,34 @@ const Metrics = () => (
         <StatCard value="55%" label="Cost Reduction" subtext="Vs. hiring US-based equivalents" />
         <StatCard value="< 2h" label="Response Time" subtext="Real-time collaboration in CST" />
         <StatCard value="100%" label="Compliance" subtext="Zero liability for your company" />
+      </div>
+    </div>
+  </section>
+);
+
+const Testimonials = () => (
+  <section className="py-24 bg-slate-50 border-b border-slate-200">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-black text-slate-900">TRUSTED BY BUILDERS</h2>
+        <p className="text-slate-600 mt-4">Don't take our word for it. Here is what Series A & B leaders say.</p>
+      </div>
+      <div className="grid md:grid-cols-3 gap-8">
+        <TestimonialCard 
+          quote="MaxApe isn't a vendor; they are our Ops backbone. Their SDRs booked 40+ qualified meetings in the first month."
+          author="Alex R."
+          role="VP of Sales, SaaS Fintech"
+        />
+        <TestimonialCard 
+          quote="I used to spend 10 hours a week fixing my freelancer's bookkeeping errors. MaxApe's CPA team fixed it in 48 hours."
+          author="Sarah J."
+          role="Founder, E-commerce Brand"
+        />
+        <TestimonialCard 
+          quote="Zero friction. The team operates in my time zone, uses my Slack, and feels like they are in the office next door."
+          author="Mike T."
+          role="COO, Logistics Tech"
+        />
       </div>
     </div>
   </section>
@@ -321,6 +366,31 @@ const Deliverables = () => {
   );
 };
 
+// --- NEW: VISUAL PAIN POINTS (Replacing "Founder's Trap" text block) ---
+
+const PainPoints = () => (
+  <div className="bg-white p-10 rounded-3xl border-2 border-red-100 shadow-sm">
+    <div className="flex items-center gap-3 mb-6 text-red-600 font-black uppercase tracking-widest">
+        <AlertCircle size={20} /> The Founder's Trap
+    </div>
+    <h3 className="text-3xl font-black text-slate-900 mb-6">TIRED OF MANAGING CHAOS?</h3>
+    <ul className="space-y-4">
+        {[
+            "Ghosting mid-project without notice.",
+            "Explaining the same task 3 different times.",
+            "Surprise invoices and variable costs.",
+            "No accountability for results, only hours."
+        ].map((item, i) => (
+            <li key={i} className="flex items-start gap-3 text-slate-600 font-medium text-lg">
+                <X size={24} className="text-red-500 shrink-0 mt-1" /> {item}
+            </li>
+        ))}
+    </ul>
+  </div>
+);
+
+// --- PAGES ---
+
 const ServicesPage = ({ navigate }) => (
   <div className="pt-32 pb-0">
     <div className="max-w-7xl mx-auto px-4 text-center mb-10">
@@ -332,6 +402,30 @@ const ServicesPage = ({ navigate }) => (
       <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
           MaxApe Solutions is not a freelance marketplace. We are a premium BPO partner that builds autonomous, managed units for your business.
       </p>
+    </div>
+
+    {/* PAIN POINTS vs SOLUTION Section (Updated) */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <div className="grid md:grid-cols-2 gap-8">
+            {/* Replaced old text block with new Visual Pain Points Component */}
+            <PainPoints />
+            
+            <div className="bg-slate-900 text-white p-10 rounded-3xl border-2 border-slate-800 shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-bl-full -mr-10 -mt-10"></div>
+                <div className="flex items-center gap-3 mb-6 text-blue-400 font-black uppercase tracking-widest relative z-10">
+                    <CheckCircle2 size={20} /> The Solution
+                </div>
+                <h3 className="text-3xl font-black text-white mb-6 relative z-10">The Modular Hybrid Model</h3>
+                <p className="text-slate-300 text-lg leading-relaxed relative z-10 mb-6">
+                    We deploy specialized <strong>Independent Business Units (IBUs)</strong> that plug directly into your company.
+                </p>
+                <ul className="space-y-4 relative z-10">
+                    <li className="flex items-center gap-3 text-slate-200 font-medium"><Check size={20} className="text-blue-500"/> Technical Autonomy</li>
+                    <li className="flex items-center gap-3 text-slate-200 font-medium"><Check size={20} className="text-blue-500"/> Strategic Integration</li>
+                    <li className="flex items-center gap-3 text-slate-200 font-medium"><Check size={20} className="text-blue-500"/> Zero Management Headaches</li>
+                </ul>
+            </div>
+        </div>
     </div>
     
     <ServicesGrid padding="py-16" />
@@ -448,7 +542,7 @@ const AboutPage = () => (
     </section>
 );
 
-// --- UPDATED CAREERS PAGE ---
+// --- CAREERS PAGE ---
 const CareersPage = () => {
   const OPEN_POSITIONS = [
     {
@@ -688,12 +782,8 @@ const Footer = ({ navigate }) => (
             <strong>Mission:</strong> Building the world's best nearshore engines.
           </p>
           <div className="flex gap-4">
-            <a href="https://maxapes.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition cursor-pointer" aria-label="Visit Website">
-              <Globe size={18}/>
-            </a>
-            <a href="mailto:Operations@MaxApeSolutions.com" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-orange-500 hover:text-white transition cursor-pointer" aria-label="Send Email">
-              <Mail size={18}/>
-            </a>
+            <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition cursor-pointer"><Globe size={18}/></div>
+            <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-orange-500 hover:text-white transition cursor-pointer"><Mail size={18}/></div>
           </div>
         </div>
         
@@ -746,6 +836,8 @@ const App = () => {
           <>
             <Hero navigate={navigate} />
             <Metrics />
+            {/* Added Testimonials to Home */}
+            <Testimonials /> 
             <ServicesGrid />
             <ContactCTA navigate={navigate} />
           </>
