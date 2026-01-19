@@ -30,7 +30,8 @@ import {
   Filter,
   FileText,
   Lock,
-  Quote
+  Quote,
+  ChevronRight
 } from 'lucide-react';
 
 // --- INTERNAL LOGO COMPONENT ---
@@ -41,6 +42,55 @@ const MaxApeLogo = ({ className = "w-16 h-16" }) => (
     className={`${className} object-contain`} 
   />
 );
+
+// --- DATA: SERVICE ECOSYSTEM (ATKG Logic) ---
+const SERVICES_DATA = [
+  {
+    id: 'finance',
+    title: 'Financial Hub',
+    tagline: 'Stop Flying Blind',
+    description: 'We install a complete financial department into your slack channel. From day-to-day bookkeeping to strategic CFO insights, get audit-ready financials without the headcount.',
+    icon: Calculator,
+    color: 'blue',
+    capabilities: [
+      { title: 'GAAP Bookkeeping', desc: 'Transaction coding, reconciliation, and monthly closing by the 15th.' },
+      { title: 'AP/AR Management', desc: 'Vendor payments (Bill.com) and aggressive invoice collections.' },
+      { title: 'Fractional Controller', desc: 'Budgeting, cash flow forecasting (13-week), and KPI dashboards.' },
+      { title: 'Payroll Ops', desc: 'Management of Gusto/Rippling and compliance monitoring.' }
+    ],
+    idealFor: 'Founders who are tired of being their own unexpected accountant.'
+  },
+  {
+    id: 'sales',
+    title: 'Growth Engine',
+    tagline: 'Predictable Revenue',
+    description: 'Stop relying on referrals. We build and operate your outbound sales machine. Dedicated SDRs, proven playbooks, and modern tech stacks to fill your calendar.',
+    icon: Rocket,
+    color: 'orange',
+    capabilities: [
+      { title: 'Dedicated SDRs', desc: '100% focused on your account. No shared resources.' },
+      { title: 'Cold Outreach', desc: 'Multi-channel campaigns (Email, Phone, LinkedIn) executing high volume.' },
+      { title: 'Lead Qualification', desc: 'Rigorous vetting of prospects against your Ideal Customer Profile (ICP).' },
+      { title: 'Appointment Setting', desc: 'Qualified meetings booked directly on your AE\'s calendar.' }
+    ],
+    idealFor: 'B2B companies ready to scale from "Founder-led Sales" to a system.'
+  },
+  {
+    id: 'admin',
+    title: 'Support Core',
+    tagline: 'Operational Intelligence',
+    description: 'Free up 20+ hours of your week. Our Executive Assistants are strategic partners who manage the chaos so you can focus on the vision.',
+    icon: Users,
+    color: 'purple',
+    capabilities: [
+      { title: 'Executive Assistance', desc: 'Gatekeeping, complex travel logistics, and inbox zero.' },
+      { title: 'CRM Hygiene', desc: 'Data entry, pipeline cleanup, and report generation.' },
+      { title: 'Operational Ops', desc: 'Vendor research, project coordination, and SOP documentation.' },
+      { title: 'Customer Success', desc: 'Ticket handling and proactive client communication.' }
+    ],
+    idealFor: 'Executives drowning in busywork who need a high-level right hand.'
+  }
+];
 
 // --- REUSABLE UI COMPONENTS ---
 
@@ -74,6 +124,99 @@ const TestimonialCard = ({ quote, author, role }) => (
     </div>
   </div>
 );
+
+// --- COMPONENT: INTERACTIVE SERVICE EXPLORER ---
+// Updated to accept 'navigate' prop and handle button click
+const ServicesExplorer = ({ navigate }) => {
+  const [activeService, setActiveService] = useState(SERVICES_DATA[0]);
+
+  return (
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <SectionBadge icon={LayoutGrid} text="Our Expertise" color="blue" />
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">THE MAXAPE ECOSYSTEM</h2>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">Explore our integrated business units designed for scale.</p>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* LEFT SIDE: NAVIGATION */}
+          <div className="lg:w-1/3 flex flex-col gap-4">
+            {SERVICES_DATA.map((service) => (
+              <button
+                key={service.id}
+                onClick={() => setActiveService(service)}
+                className={`group text-left p-6 rounded-2xl border-2 transition-all duration-300 flex items-center justify-between ${
+                  activeService.id === service.id
+                    ? `border-${service.color}-500 bg-${service.color}-50 shadow-lg`
+                    : 'border-slate-100 hover:border-slate-300 bg-white'
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                    activeService.id === service.id ? `bg-${service.color}-500 text-white` : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    <service.icon size={24} />
+                  </div>
+                  <div>
+                    <h3 className={`font-black text-lg ${activeService.id === service.id ? 'text-slate-900' : 'text-slate-600'}`}>
+                      {service.title}
+                    </h3>
+                    <p className={`text-xs font-bold uppercase tracking-wider ${activeService.id === service.id ? `text-${service.color}-600` : 'text-slate-400'}`}>
+                      {service.tagline}
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight size={20} className={`transition-transform ${activeService.id === service.id ? `text-${service.color}-500 rotate-90 lg:rotate-0` : 'text-slate-300'}`} />
+              </button>
+            ))}
+          </div>
+
+          {/* RIGHT SIDE: CONTENT */}
+          <div className="lg:w-2/3 bg-slate-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl transition-all duration-500">
+            <div className={`absolute top-0 right-0 w-96 h-96 bg-${activeService.color}-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2`}></div>
+            
+            <div className="relative z-10 animate-fade-in">
+              <div className="flex items-center gap-3 mb-6">
+                <activeService.icon size={32} className={`text-${activeService.color}-500`} />
+                <h3 className="text-3xl md:text-4xl font-black">{activeService.title}</h3>
+              </div>
+              
+              <p className="text-lg text-slate-300 mb-10 leading-relaxed max-w-2xl">
+                {activeService.description}
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-x-8 gap-y-8 mb-10">
+                {activeService.capabilities.map((cap, idx) => (
+                  <div key={idx} className="flex gap-4 group">
+                    <div className={`mt-1 w-2 h-2 rounded-full bg-${activeService.color}-500 shrink-0 group-hover:scale-150 transition`}></div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1">{cap.title}</h4>
+                      <p className="text-sm text-slate-400 leading-snug">{cap.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-8 border-t border-slate-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Perfect For</p>
+                  <p className="text-sm font-medium text-slate-300 italic">"{activeService.idealFor}"</p>
+                </div>
+                <button 
+                  onClick={() => navigate('contact')}
+                  className={`bg-${activeService.color}-500 hover:bg-${activeService.color}-600 text-white px-8 py-3 rounded-xl font-bold transition shadow-lg flex items-center gap-2`}
+                >
+                  Explore {activeService.title} <ArrowRight size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 // --- PAGE SECTIONS ---
 
@@ -164,65 +307,6 @@ const Testimonials = () => (
   </section>
 );
 
-const ServicesGrid = ({ padding = "py-32" }) => (
-  <section className={`${padding} bg-white`}>
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-20">
-        <SectionBadge icon={LayoutGrid} text="Modular Architecture" color="blue" />
-        <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6">CHOOSE YOUR ENGINE</h2>
-        <p className="text-xl text-slate-600 max-w-2xl mx-auto">Specialized Independent Business Units (IBUs) designed to plug directly into your workflow.</p>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-6">
-        {/* Finance Card */}
-        <div className="group bg-slate-50 rounded-3xl p-8 border border-slate-200 hover:border-blue-500 hover:shadow-2xl hover:shadow-blue-500/10 transition duration-300 relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-blue-500 w-20 h-20 rounded-bl-full -mr-10 -mt-10 opacity-20 group-hover:opacity-100 transition"></div>
-          <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-blue-600 mb-8 shadow-sm border border-slate-100">
-            <Calculator size={28} />
-          </div>
-          <h3 className="text-2xl font-black text-slate-900 mb-4">Financial Hub</h3>
-          <p className="text-slate-500 mb-8 h-12">Stop flying blind. Get audit-ready financials and clear cash flow.</p>
-          <ul className="space-y-3 text-sm font-bold text-slate-700 mb-8">
-            <li className="flex gap-3"><Check size={18} className="text-blue-500"/> GAAP Bookkeeping</li>
-            <li className="flex gap-3"><Check size={18} className="text-blue-500"/> AP/AR Management</li>
-            <li className="flex gap-3"><Check size={18} className="text-blue-500"/> Fractional Controller</li>
-          </ul>
-        </div>
-
-        {/* Sales Card */}
-        <div className="group bg-slate-900 rounded-3xl p-8 border border-slate-800 hover:border-orange-500 hover:shadow-2xl hover:shadow-orange-500/20 transition duration-300 relative overflow-hidden transform md:-translate-y-4">
-          <div className="absolute top-0 right-0 bg-orange-500 w-20 h-20 rounded-bl-full -mr-10 -mt-10 opacity-100 transition"></div>
-          <div className="w-14 h-14 bg-slate-800 rounded-2xl flex items-center justify-center text-orange-500 mb-8 shadow-lg border border-slate-700">
-            <Rocket size={28} />
-          </div>
-          <h3 className="text-2xl font-black text-white mb-4">Growth Engine</h3>
-          <p className="text-slate-400 mb-8 h-12">Stop relying on referrals. Build a predictable pipeline.</p>
-          <ul className="space-y-3 text-sm font-bold text-slate-300 mb-8">
-            <li className="flex gap-3"><Check size={18} className="text-orange-500"/> Dedicated SDRs</li>
-            <li className="flex gap-3"><Check size={18} className="text-orange-500"/> Cold Outreach (Email/Call)</li>
-            <li className="flex gap-3"><Check size={18} className="text-orange-500"/> Lead Qualification</li>
-          </ul>
-        </div>
-
-        {/* Admin Card */}
-        <div className="group bg-slate-50 rounded-3xl p-8 border border-slate-200 hover:border-purple-500 hover:shadow-2xl hover:shadow-purple-500/10 transition duration-300 relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-purple-500 w-20 h-20 rounded-bl-full -mr-10 -mt-10 opacity-20 group-hover:opacity-100 transition"></div>
-          <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-600 mb-8 shadow-sm border border-slate-100">
-            <Users size={28} />
-          </div>
-          <h3 className="text-2xl font-black text-slate-900 mb-4">Support Core</h3>
-          <p className="text-slate-500 mb-8 h-12">Stop drowning in busywork. Focus on strategy.</p>
-          <ul className="space-y-3 text-sm font-bold text-slate-700 mb-8">
-            <li className="flex gap-3"><Check size={18} className="text-purple-500"/> Executive Assistance</li>
-            <li className="flex gap-3"><Check size={18} className="text-purple-500"/> Complex Scheduling</li>
-            <li className="flex gap-3"><Check size={18} className="text-purple-500"/> Operational Ops</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
 const ContactCTA = ({ navigate }) => (
   <section className="py-24 bg-slate-900 relative overflow-hidden">
     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
@@ -247,8 +331,6 @@ const ContactCTA = ({ navigate }) => (
     </div>
   </section>
 );
-
-// --- NEW COMPONENTS (RESTORED COMPARISON + NEW WORKFLOW) ---
 
 const Comparison = () => (
   <section className="py-24 bg-white border-t border-slate-100">
@@ -366,8 +448,7 @@ const Deliverables = () => {
   );
 };
 
-// --- NEW: VISUAL PAIN POINTS (Replacing "Founder's Trap" text block) ---
-
+// --- NEW: VISUAL PAIN POINTS ---
 const PainPoints = () => (
   <div className="bg-white p-10 rounded-3xl border-2 border-red-100 shadow-sm">
     <div className="flex items-center gap-3 mb-6 text-red-600 font-black uppercase tracking-widest">
@@ -389,8 +470,6 @@ const PainPoints = () => (
   </div>
 );
 
-// --- PAGES ---
-
 const ServicesPage = ({ navigate }) => (
   <div className="pt-32 pb-0">
     <div className="max-w-7xl mx-auto px-4 text-center mb-10">
@@ -404,12 +483,10 @@ const ServicesPage = ({ navigate }) => (
       </p>
     </div>
 
-    {/* PAIN POINTS vs SOLUTION Section (Updated) */}
+    {/* PAIN POINTS vs SOLUTION */}
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
         <div className="grid md:grid-cols-2 gap-8">
-            {/* Replaced old text block with new Visual Pain Points Component */}
             <PainPoints />
-            
             <div className="bg-slate-900 text-white p-10 rounded-3xl border-2 border-slate-800 shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-bl-full -mr-10 -mt-10"></div>
                 <div className="flex items-center gap-3 mb-6 text-blue-400 font-black uppercase tracking-widest relative z-10">
@@ -428,18 +505,11 @@ const ServicesPage = ({ navigate }) => (
         </div>
     </div>
     
-    <ServicesGrid padding="py-16" />
+    <ServicesExplorer navigate={navigate} />
     <Workflow />
     <Deliverables />
     <Comparison />
     <ContactCTA navigate={navigate} />
-  </div>
-);
-
-const ContentPage = ({ title, subtitle }) => (
-  <div className="pt-40 pb-20 min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
-    <h2 className="text-5xl font-black text-slate-900 mb-6 uppercase">{title}</h2>
-    <p className="text-xl text-slate-600 max-w-2xl">{subtitle}</p>
   </div>
 );
 
@@ -542,7 +612,6 @@ const AboutPage = () => (
     </section>
 );
 
-// --- CAREERS PAGE ---
 const CareersPage = () => {
   const OPEN_POSITIONS = [
     {
@@ -574,7 +643,6 @@ const CareersPage = () => {
   return (
     <section className="pt-32 pb-20 bg-slate-50 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             {/* Header */}
              <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl mb-20">
                 <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]"></div>
                 <div className="relative z-10">
@@ -591,7 +659,6 @@ const CareersPage = () => {
                 </div>
              </div>
 
-             {/* Job Listings */}
              <div className="max-w-5xl mx-auto">
                 <div className="flex items-center justify-between mb-10">
                     <h3 className="text-3xl font-black text-slate-900">OPEN POSITIONS</h3>
@@ -782,8 +849,12 @@ const Footer = ({ navigate }) => (
             <strong>Mission:</strong> Building the world's best nearshore engines.
           </p>
           <div className="flex gap-4">
-            <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition cursor-pointer"><Globe size={18}/></div>
-            <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-orange-500 hover:text-white transition cursor-pointer"><Mail size={18}/></div>
+            <a href="https://maxapes.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition cursor-pointer" aria-label="Visit Website">
+              <Globe size={18}/>
+            </a>
+            <a href="mailto:Operations@MaxApeSolutions.com" className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-orange-500 hover:text-white transition cursor-pointer" aria-label="Send Email">
+              <Mail size={18}/>
+            </a>
           </div>
         </div>
         
@@ -838,7 +909,7 @@ const App = () => {
             <Metrics />
             {/* Added Testimonials to Home */}
             <Testimonials /> 
-            <ServicesGrid />
+            <ServicesExplorer navigate={navigate} /> 
             <ContactCTA navigate={navigate} />
           </>
         )}
